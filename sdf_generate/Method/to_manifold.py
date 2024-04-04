@@ -1,12 +1,12 @@
 import os
 from typing import Union
-from subprocess import Popen, DEVNULL
+from subprocess import Popen, PIPE
 
 from sdf_generate.Method.path import createFileFolder
 
 
 def runCMD(cmd: Union[str, list]) -> bool:
-    subproc = Popen(cmd, stdout=DEVNULL)
+    subproc = Popen(cmd, stdout=PIPE)
     subproc.wait()
     return True
 
