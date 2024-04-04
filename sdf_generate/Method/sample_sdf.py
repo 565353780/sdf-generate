@@ -6,6 +6,8 @@ import trimesh
 import numpy as np
 from mesh_to_sdf import mesh_to_voxels
 
+from sdf_generate.Method.path import createFileFolder
+
 
 def convertSDFGrid(
     manifold_mesh_file_path: str,
@@ -17,6 +19,8 @@ def convertSDFGrid(
     if os.path.exists(save_sdf_npy_file_path):
         if not overwrite:
             return True
+
+    createFileFolder(save_sdf_npy_file_path)
 
     mesh = trimesh.load_mesh(manifold_mesh_file_path)
     voxels = mesh_to_voxels(mesh, resolution, scale_ratio=scale_ratio)

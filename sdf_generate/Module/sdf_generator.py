@@ -12,10 +12,14 @@ class SDFGenerator(object):
         shape_root_folder_path: str,
         save_root_folder_path: str,
         force_start: bool = False,
+        resolution: int = 256,
+        scale_ratio: float = 1.0,
     ) -> None:
         self.shape_root_folder_path = shape_root_folder_path
         self.save_root_folder_path = save_root_folder_path
         self.force_start = force_start
+        self.resolution = resolution
+        self.scale_ratio = scale_ratio
         return
 
     def convertOneShape(self, rel_shape_file_path: str) -> bool:
@@ -63,17 +67,20 @@ class SDFGenerator(object):
             flipAxis(shape_file_path, flip_axis_shape_file_path, True)
 
         manifold_shape_file_path = (
-            self.save_root_folder_path
-            + "manifold/"
-            + unit_rel_folder_path
-            + shape_file_name
+            self.save_root_folder_path + "manifold/" + unit_rel_folder_path + ".obj"
         )
         toManifold(shape_file_path, manifold_shape_file_path, True)
 
         save_sdf_npy_file_path = (
-            self.save_root_folder_path + "sdf/" + unit_rel_folder_path + shape_file_name
+            self.save_root_folder_path + "sdf/" + unit_rel_folder_path + ".npy"
         )
-        convertSDFGrid(manifold_shape_file_path, save_sdf_npy_file_path)
+        convertSDFGrid(
+            manifold_shape_file_path,
+            save_sdf_npy_file_path,
+            self.resolution,
+            self.scale_ratio,
+            True,
+        )
 
         with open(finish_tag_file_path, "w") as f:
             f.write("finish!\n")
@@ -88,7 +95,7 @@ class SDFGenerator(object):
         solved_shape_num = 0
         for root, _, files in os.walk(self.shape_root_folder_path):
             for filename in files:
-                if filename[-4:] not in [".obj", ".ply"]:
+                if filename[-4:] not in [".obj", ".obj"]:
                     continue
 
                 rel_file_path = (
