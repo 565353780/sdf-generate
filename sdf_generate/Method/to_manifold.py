@@ -6,6 +6,15 @@ from sdf_generate.Method.path import createFileFolder
 
 
 def runCMD(cmd: Union[str, list]) -> bool:
+    if isinstance(cmd, list):
+        cmd_str = ''
+        for i in range(len(cmd) - 1):
+            cmd_str += cmd[i] + ' '
+        cmd_str += cmd[-1]
+    else:
+        cmd_str = cmd
+    os.system(cmd_str)
+    return True
     subproc = Popen(cmd, stdout=PIPE)
     subproc.wait()
     return True
