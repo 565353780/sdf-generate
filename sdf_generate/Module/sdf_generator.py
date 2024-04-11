@@ -3,7 +3,7 @@ import os
 from sdf_generate.Method.path import createFileFolder
 from sdf_generate.Method.flip_axis import flipAxis
 from sdf_generate.Method.to_manifold import toManifold
-from sdf_generate.Method.sample_sdf import convertSDFGrid
+from sdf_generate.Method.sample_sdf import convertSDFGrid, convertSDFNearSurface
 
 
 class SDFGenerator(object):
@@ -14,12 +14,14 @@ class SDFGenerator(object):
         force_start: bool = False,
         resolution: int = 256,
         scale_ratio: float = 1.0,
+        sample_point_num: int = 250000,
     ) -> None:
         self.shape_root_folder_path = shape_root_folder_path
         self.save_root_folder_path = save_root_folder_path
         self.force_start = force_start
         self.resolution = resolution
         self.scale_ratio = scale_ratio
+        self.sample_point_num = sample_point_num
         return
 
     def convertOneShape(self, rel_shape_file_path: str) -> bool:
@@ -71,14 +73,25 @@ class SDFGenerator(object):
         )
         toManifold(shape_file_path, manifold_shape_file_path, True)
 
+        if False:
+            save_sdf_npy_file_path = (
+                self.save_root_folder_path + "sdf/" + unit_rel_folder_path + ".npy"
+            )
+            convertSDFGrid(
+                manifold_shape_file_path,
+                save_sdf_npy_file_path,
+                self.resolution,
+                self.scale_ratio,
+                True,
+            )
+
         save_sdf_npy_file_path = (
             self.save_root_folder_path + "sdf/" + unit_rel_folder_path + ".npy"
         )
-        convertSDFGrid(
+        convertSDFNearSurface(
             manifold_shape_file_path,
             save_sdf_npy_file_path,
-            self.resolution,
-            self.scale_ratio,
+            self.sample_point_num,
             True,
         )
 
