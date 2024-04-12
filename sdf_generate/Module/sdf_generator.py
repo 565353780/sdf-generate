@@ -108,7 +108,7 @@ class SDFGenerator(object):
         solved_shape_num = 0
         for root, _, files in os.walk(self.shape_root_folder_path):
             for filename in files:
-                if filename[-4:] not in [".obj", ".obj"]:
+                if filename[-4:] != ".obj":
                     continue
 
                 rel_file_path = (
