@@ -32,7 +32,8 @@ class SDFViewer(object):
 
     def renderNearSurfaceSDF(self, sdf_data: np.ndarray) -> bool:
         sdf_pcd = toNearSurfaceSDFPcd(sdf_data)
-        o3d.visualization.draw_geometries([sdf_pcd])
+        # o3d.visualization.draw_geometries([sdf_pcd])
+        o3d.io.write_point_cloud("./output/test.ply", sdf_pcd)
         return True
 
     def renderNearSurfaceSDFFile(self, sdf_npy_file_path: str) -> bool:
