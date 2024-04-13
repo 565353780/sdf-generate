@@ -33,6 +33,7 @@ def convertSDFNearSurface(
     mesh_file_path: str,
     save_sdf_npy_file_path: str,
     sample_point_num: int = 250000,
+    gauss_scale: float = 0.0025,
     overwrite: bool = False,
 ) -> bool:
     if os.path.exists(save_sdf_npy_file_path):
@@ -43,7 +44,9 @@ def convertSDFNearSurface(
 
     mesh = trimesh.load(mesh_file_path)
 
-    points, sdf = sample_sdf_near_surface(mesh, number_of_points=sample_point_num)
+    points, sdf = sample_sdf_near_surface(
+        mesh, number_of_points=sample_point_num, gauss_scale=gauss_scale
+    )
 
     sdf_points = np.hstack([points, sdf.reshape(-1, 1)])
 

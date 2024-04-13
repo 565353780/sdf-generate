@@ -15,6 +15,7 @@ class SDFGenerator(object):
         resolution: int = 256,
         scale_ratio: float = 1.0,
         sample_point_num: int = 250000,
+        gauss_scale: float = 0.0025,
     ) -> None:
         self.shape_root_folder_path = shape_root_folder_path
         self.save_root_folder_path = save_root_folder_path
@@ -22,6 +23,7 @@ class SDFGenerator(object):
         self.resolution = resolution
         self.scale_ratio = scale_ratio
         self.sample_point_num = sample_point_num
+        self.gauss_scale = gauss_scale
         return
 
     def convertOneShape(self, rel_shape_file_path: str) -> bool:
@@ -69,9 +71,14 @@ class SDFGenerator(object):
             flipAxis(shape_file_path, flip_axis_shape_file_path, True)
 
         manifold_shape_file_path = (
-            self.save_root_folder_path + "manifold/" + unit_rel_folder_path + ".obj"
+            self.save_root_folder_path.replace("/home/chli", "/home/chli/chLi").replace(
+                "SDF_V2", "SDF"
+            )
+            + "manifold/"
+            + unit_rel_folder_path
+            + ".obj"
         )
-        toManifold(shape_file_path, manifold_shape_file_path, True)
+        # toManifold(shape_file_path, manifold_shape_file_path, True)
 
         if False:
             save_sdf_npy_file_path = (
@@ -92,6 +99,7 @@ class SDFGenerator(object):
             manifold_shape_file_path,
             save_sdf_npy_file_path,
             self.sample_point_num,
+            self.gauss_scale,
             True,
         )
 

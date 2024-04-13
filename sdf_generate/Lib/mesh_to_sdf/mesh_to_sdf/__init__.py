@@ -137,6 +137,7 @@ def sample_sdf_near_surface(
     normal_sample_count=11,
     min_size=0,
     return_gradients=False,
+    gauss_scale: float = 0.0025,
 ):
     # mesh = scale_to_unit_sphere(mesh)
 
@@ -163,4 +164,5 @@ def sample_sdf_near_surface(
         normal_sample_count,
         min_size,
         return_gradients,
+        gauss_scale,
     )

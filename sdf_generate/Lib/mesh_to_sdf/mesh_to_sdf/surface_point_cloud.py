@@ -160,6 +160,7 @@ class SurfacePointCloud:
         normal_sample_count=11,
         min_size=0,
         return_gradients=False,
+        gauss_scale: float = 0.0025,
     ):
         query_points = []
         surface_sample_count = int(number_of_points * 47 / 50) // 2
@@ -168,11 +169,11 @@ class SurfacePointCloud:
         )
         query_points.append(
             surface_points
-            + np.random.normal(scale=0.0025, size=(surface_sample_count, 3))
+            + np.random.normal(scale=gauss_scale, size=(surface_sample_count, 3))
         )
         query_points.append(
             surface_points
-            + np.random.normal(scale=0.00025, size=(surface_sample_count, 3))
+            + np.random.normal(scale=gauss_scale * 0.1, size=(surface_sample_count, 3))
         )
 
         unit_sphere_sample_count = number_of_points - surface_points.shape[0] * 2
