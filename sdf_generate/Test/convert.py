@@ -8,7 +8,7 @@ def test():
     manifold_file_path = "./output/test_manifold.obj"
     sdf_npy_file_path = "./output/test_sdf.npy"
 
-    if False:
+    if True:
         toManifold(mesh_file_path, manifold_file_path, True)
 
     if True:
