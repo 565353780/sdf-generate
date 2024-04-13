@@ -31,9 +31,6 @@ def toNearSurfaceSDFPcd(sdf_data: np.ndarray) -> o3d.geometry.PointCloud:
     points = np.vstack([positive_points, negative_points])
     colors = np.vstack([positive_colors, negative_colors])
 
-    points = negative_points
-    colors = negative_colors
-
     pcd = o3d.geometry.PointCloud()
     pcd.points = o3d.utility.Vector3dVector(points)
     pcd.colors = o3d.utility.Vector3dVector(colors)
