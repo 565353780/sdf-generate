@@ -12,7 +12,7 @@ def demo():
     resolution = 256
     scale_ratio = 1.0
     sample_point_num = 250000
-    gauss_scale = 0.025
+    gauss_scale = 0.25
 
     sdf_generator = SDFGenerator(
         shape_root_folder_path,

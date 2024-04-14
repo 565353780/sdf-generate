@@ -11,7 +11,7 @@ def test():
     manifold_file_path = "./output/test_manifold.obj"
     sdf_npy_file_path = "./output/test_sdf.npy"
     sample_point_num = 250000
-    gauss_scale = 0.025
+    gauss_scale = 0.25
     overwrite = True
 
     if False:
