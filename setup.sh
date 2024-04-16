@@ -7,4 +7,5 @@ make -j
 cd ../../mesh_to_sdf
 pip install .
 
-pip install -U open3d tqdm trimesh scikit-image
+# pip install -U open3d tqdm trimesh scikit-image
+pip install tqdm trimesh scikit-image
