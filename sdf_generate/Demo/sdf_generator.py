@@ -4,8 +4,7 @@ from sdf_generate.Module.sdf_generator import SDFGenerator
 
 
 def demo():
-    if False:
-        HOME = os.environ["HOME"]
+    HOME = os.environ["HOME"]
 
     shape_root_folder_path = HOME + "/chLi/Dataset/ShapeNet/Core/ShapeNetCore.v2/"
     save_root_folder_path = HOME + "/Dataset/SDF-Fine/ShapeNet/"
@@ -15,6 +14,7 @@ def demo():
     sample_point_num = 250000
     gauss_scale = 0.025
 
+    if True:
         sdf_generator = SDFGenerator(
             shape_root_folder_path,
             save_root_folder_path,
@@ -27,7 +27,7 @@ def demo():
 
         sdf_generator.convertAll()
 
-    if True:
+    if False:
         shape_root_folder_path = "../../ASDF/ma-sh/output/"
         save_root_folder_path = "./output/"
         force_start = False
@@ -47,5 +47,4 @@ def demo():
         )
 
         sdf_generator.convertOneShape("mac_chair_2.ply")
-
     return True
