@@ -44,9 +44,14 @@ def convertSDFNearSurface(
 
     mesh = trimesh.load(mesh_file_path)
 
-    points, sdf = sample_sdf_near_surface(
-        mesh, number_of_points=sample_point_num, gauss_scale=gauss_scale
-    )
+    try:
+        points, sdf = sample_sdf_near_surface(
+            mesh, number_of_points=sample_point_num, gauss_scale=gauss_scale
+        )
+    except:
+        print('[ERROR][sample_sdf::convertSDFNearSurface]')
+        print('\t sample_sdf_near_surface failed!')
+        return False
 
     sdf_points = np.hstack([points, sdf.reshape(-1, 1)])
 

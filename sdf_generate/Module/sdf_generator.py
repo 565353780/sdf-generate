@@ -72,13 +72,13 @@ class SDFGenerator(object):
 
         manifold_shape_file_path = (
             self.save_root_folder_path.replace("/home/chli", "/home/chli/chLi").replace(
-                "SDF_V2", "SDF"
+                "SDF-Fine", "SDF"
             )
             + "manifold/"
             + unit_rel_folder_path
             + ".obj"
         )
-        # toManifold(shape_file_path, manifold_shape_file_path, True)
+        toManifold(shape_file_path, manifold_shape_file_path, True)
 
         if False:
             save_sdf_npy_file_path = (

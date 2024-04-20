@@ -7,12 +7,12 @@ def demo():
     HOME = os.environ["HOME"]
 
     shape_root_folder_path = HOME + "/chLi/Dataset/ShapeNet/Core/ShapeNetCore.v2/"
-    save_root_folder_path = HOME + "/Dataset/SDF/ShapeNet/"
+    save_root_folder_path = HOME + "/Dataset/SDF-Fine/ShapeNet/"
     force_start = False
     resolution = 256
     scale_ratio = 1.0
     sample_point_num = 250000
-    gauss_scale = 0.25
+    gauss_scale = 0.025
 
     sdf_generator = SDFGenerator(
         shape_root_folder_path,
