@@ -10,7 +10,7 @@ class SDFGenerator(object):
     def __init__(
         self,
         shape_root_folder_path: str,
-        save_root_folder_path: str,
+        dataset_root_folder_path: str,
         force_start: bool = False,
         resolution: int = 256,
         scale_ratio: float = 1.0,
@@ -18,12 +18,20 @@ class SDFGenerator(object):
         gauss_scale: float = 0.0025,
     ) -> None:
         self.shape_root_folder_path = shape_root_folder_path
-        self.save_root_folder_path = save_root_folder_path
+        self.dataset_root_folder_path = dataset_root_folder_path
         self.force_start = force_start
         self.resolution = resolution
         self.scale_ratio = scale_ratio
         self.sample_point_num = sample_point_num
         self.gauss_scale = gauss_scale
+
+        self.manifold_folder_path = (
+            self.shape_root_folder_path + "Manifold/ShapeNet/manifold/"
+        )
+        self.manifold_folder_path = (
+            self.dataset_root_folder_path + "Mash/ShapeNet/normalized_mesh/"
+        )
+        self.sdf_folder_path = self.dataset_root_folder_path + "SDF/ShapeNet/"
         return
 
     def convertOneShape(self, rel_shape_file_path: str) -> bool:
@@ -42,14 +50,14 @@ class SDFGenerator(object):
         unit_rel_folder_path = rel_shape_folder_path + shape_file_name.replace(".", "_")
 
         finish_tag_file_path = (
-            self.save_root_folder_path + "tag/" + unit_rel_folder_path + "/finish.txt"
+            self.sdf_folder_path + "tag/" + unit_rel_folder_path + "/finish.txt"
         )
 
         if os.path.exists(finish_tag_file_path):
             return True
 
         start_tag_file_path = (
-            self.save_root_folder_path + "tag/" + unit_rel_folder_path + "/start.txt"
+            self.sdf_folder_path + "tag/" + unit_rel_folder_path + "/start.txt"
         )
 
         if os.path.exists(start_tag_file_path):
@@ -59,11 +67,11 @@ class SDFGenerator(object):
         createFileFolder(start_tag_file_path)
 
         with open(start_tag_file_path, "w") as f:
-            f.write("start!\n")
+            f.write("\n")
 
         if False:
             flip_axis_shape_file_path = (
-                self.save_root_folder_path
+                self.dataset_root_folder_path
                 + "flip_axis/"
                 + unit_rel_folder_path
                 + shape_file_name
@@ -71,18 +79,16 @@ class SDFGenerator(object):
             flipAxis(shape_file_path, flip_axis_shape_file_path, True)
 
         manifold_shape_file_path = (
-            self.save_root_folder_path.replace("/home/chli", "/home/chli/chLi").replace(
-                "SDF-Fine", "SDF"
-            )
-            + "manifold/"
-            + unit_rel_folder_path
-            + ".obj"
+            self.manifold_folder_path + unit_rel_folder_path.replace("_obj", ".obj")
         )
-        toManifold(shape_file_path, manifold_shape_file_path, True)
+
+        if not os.path.exists(manifold_shape_file_path):
+            createFileFolder(manifold_shape_file_path)
+            toManifold(shape_file_path, manifold_shape_file_path, True)
 
         if False:
             save_sdf_npy_file_path = (
-                self.save_root_folder_path + "sdf/" + unit_rel_folder_path + ".npy"
+                self.dataset_root_folder_path + "sdf/" + unit_rel_folder_path + ".npy"
             )
             convertSDFGrid(
                 manifold_shape_file_path,
@@ -93,23 +99,24 @@ class SDFGenerator(object):
             )
 
         save_sdf_npy_file_path = (
-            self.save_root_folder_path + "sdf/" + unit_rel_folder_path + ".npy"
+            self.sdf_folder_path + "sdf/" + unit_rel_folder_path + ".npy"
         )
-        convertSDFNearSurface(
-            manifold_shape_file_path,
-            save_sdf_npy_file_path,
-            self.sample_point_num,
-            self.gauss_scale,
-            True,
-        )
+        if not os.path.exists(save_sdf_npy_file_path):
+            convertSDFNearSurface(
+                manifold_shape_file_path,
+                save_sdf_npy_file_path,
+                self.sample_point_num,
+                self.gauss_scale,
+                True,
+            )
 
         with open(finish_tag_file_path, "w") as f:
-            f.write("finish!\n")
+            f.write("\n")
 
         return True
 
     def convertAll(self) -> bool:
-        os.makedirs(self.save_root_folder_path, exist_ok=True)
+        os.makedirs(self.dataset_root_folder_path, exist_ok=True)
 
         print("[INFO][Convertor::convertAll]")
         print("\t start convert all shapes to mashes...")
