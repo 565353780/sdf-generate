@@ -26,9 +26,6 @@ class SDFGenerator(object):
         self.gauss_scale = gauss_scale
 
         self.manifold_folder_path = (
-            self.shape_root_folder_path + "Manifold/ShapeNet/manifold/"
-        )
-        self.manifold_folder_path = (
             self.dataset_root_folder_path + "Mash/ShapeNet/normalized_mesh/"
         )
         self.sdf_folder_path = self.dataset_root_folder_path + "SDF/ShapeNet/"
@@ -122,11 +119,6 @@ class SDFGenerator(object):
         print("\t start convert all shapes to mashes...")
         solved_shape_num = 0
         for root, _, files in os.walk(self.shape_root_folder_path):
-            if '03001627' not in root:
-                solved_shape_num += 1
-                print("solved shape num:", solved_shape_num)
-                continue
-
             for filename in files:
                 if filename[-4:] != ".obj":
                     continue
