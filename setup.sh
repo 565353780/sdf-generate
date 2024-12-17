@@ -1,10 +1,10 @@
-if [ "$(uname)" == "Darwin" ]; then
-	pip install open3d==0.15.1
+if [ "$(uname)" = "Darwin" ]; then
+  pip install open3d==0.15.1
 elif [ "$(uname)" = "Linux" ]; then
-	pip install -U open3d
+  pip install -U open3d
 fi
 
-cd ../sdf-generate/sdf_generate/Lib/Manifold
+cd ../sdf-generate/sdf_generate/Lib/ManifoldPlus
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
