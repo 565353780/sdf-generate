@@ -1,10 +1,11 @@
 import os
+import subprocess
 
 from sdf_generate.Method.path import createFileFolder
 
 
 def runCMD(command: str) -> bool:
-    os.system(command)
+    subprocess.run(command, shell=True)
     return True
 
 def toManifold(
