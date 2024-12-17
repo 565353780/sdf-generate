@@ -15,7 +15,7 @@ def toSDFMesh(sdf_data: np.ndarray) -> o3d.geometry.TriangleMesh:
     return sdf_mesh
 
 
-def toNearSurfaceSDFPcd(sdf_data: np.ndarray) -> o3d.geometry.PointCloud:
+def toNearSurfaceSDFPcd(sdf_data: np.ndarray, inner_only: bool = False) -> o3d.geometry.PointCloud:
     positive_mask = sdf_data[:, 3] > 0.0
     negative_mask = ~positive_mask
 
@@ -28,8 +28,12 @@ def toNearSurfaceSDFPcd(sdf_data: np.ndarray) -> o3d.geometry.PointCloud:
     positive_colors[:, 0] = 1.0
     negative_colors[:, 2] = 1.0
 
-    points = np.vstack([positive_points, negative_points])
-    colors = np.vstack([positive_colors, negative_colors])
+    if inner_only:
+        points = negative_points
+        colors = negative_colors
+    else:
+        points = np.vstack([positive_points, negative_points])
+        colors = np.vstack([positive_colors, negative_colors])
 
     pcd = o3d.geometry.PointCloud()
     pcd.points = o3d.utility.Vector3dVector(points)
