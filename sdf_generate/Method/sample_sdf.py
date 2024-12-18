@@ -48,9 +48,10 @@ def convertSDFNearSurface(
         points, sdf = sample_sdf_near_surface(
             mesh, number_of_points=sample_point_num, gauss_scale=gauss_scale
         )
-    except:
+    except Exception as e:
         print('[ERROR][sample_sdf::convertSDFNearSurface]')
         print('\t sample_sdf_near_surface failed!')
+        print('\t', e)
         return False
 
     sdf_points = np.hstack([points, sdf.reshape(-1, 1)])
