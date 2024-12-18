@@ -46,7 +46,7 @@ def convertSDFNearSurface(
 
     try:
         points, sdf = sample_sdf_near_surface(
-            mesh, number_of_points=sample_point_num, gauss_scale=gauss_scale
+            mesh, number_of_points=sample_point_num, sign_method='depth', gauss_scale=gauss_scale
         )
     except Exception as e:
         print('[ERROR][sample_sdf::convertSDFNearSurface]')
