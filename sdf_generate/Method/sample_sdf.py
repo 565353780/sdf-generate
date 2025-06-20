@@ -1,6 +1,6 @@
 import os
 
-os.environ["PYOPENGL_PLATFORM"] = "egl"
+os.environ["PYOPENGL_PLATFORM"] = "auto"
 
 import trimesh
 import numpy as np
@@ -46,12 +46,15 @@ def convertSDFNearSurface(
 
     try:
         points, sdf = sample_sdf_near_surface(
-            mesh, number_of_points=sample_point_num, sign_method='depth', gauss_scale=gauss_scale
+            mesh,
+            number_of_points=sample_point_num,
+            sign_method="depth",
+            gauss_scale=gauss_scale,
         )
     except Exception as e:
-        print('[ERROR][sample_sdf::convertSDFNearSurface]')
-        print('\t sample_sdf_near_surface failed!')
-        print('\t', e)
+        print("[ERROR][sample_sdf::convertSDFNearSurface]")
+        print("\t sample_sdf_near_surface failed!")
+        print("\t", e)
         return False
 
     sdf_points = np.hstack([points, sdf.reshape(-1, 1)])
