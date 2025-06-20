@@ -1,6 +1,6 @@
 import os
 
-os.environ["PYOPENGL_PLATFORM"] = "auto"
+os.environ["PYOPENGL_PLATFORM"] = "egl"
 
 import trimesh
 import numpy as np
