@@ -5,6 +5,7 @@ elif [ "$(uname)" = "Linux" ]; then
 fi
 
 cd ../sdf-generate/sdf_generate/Lib/ManifoldPlus
+rm -rf build
 mkdir build
 cd build
 cmake -DCMAKE_BUILD_TYPE=Release ..
