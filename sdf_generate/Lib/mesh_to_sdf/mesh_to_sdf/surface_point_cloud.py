@@ -41,7 +41,7 @@ class SurfacePointCloud:
     ):
         if use_depth_buffer:
             distances, indices = self.kd_tree.query(query_points)
-            distances = distances.astype(np.float32).reshape(-1)
+            distances = distances.astype(float).reshape(-1)
             inside = ~self.is_outside(query_points)
             distances[inside] *= -1
 
@@ -51,7 +51,7 @@ class SurfacePointCloud:
 
         else:
             distances, indices = self.kd_tree.query(query_points, k=sample_count)
-            distances = distances.astype(np.float32)
+            distances = distances.astype(float)
 
             closest_points = self.points[indices]
             direction_from_surface = query_points[:, np.newaxis, :] - closest_points
@@ -181,7 +181,7 @@ class SurfacePointCloud:
             unit_sphere_sample_count
         )
         query_points.append(unit_sphere_points)
-        query_points = np.concatenate(query_points).astype(np.float32)
+        query_points = np.concatenate(query_points).astype(float)
 
         if sign_method == "normal":
             sdf = self.get_sdf_in_batches(

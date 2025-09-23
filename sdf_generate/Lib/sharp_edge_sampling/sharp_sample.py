@@ -291,10 +291,10 @@ def process_mesh(
         fps_coarse_surface[np.isnan(fps_coarse_surface)] = 1
         np.savez(
             npz_output_path,
-            fps_sharp_surface=fps_sharp_surface.astype(np.float32),
-            sharp_near_surface=sharp_near_surface.astype(np.float32),
-            fps_coarse_surface=fps_coarse_surface.astype(np.float32),
-            rand_points=rand_points.astype(np.float32),
+            fps_sharp_surface=fps_sharp_surface.astype(float),
+            sharp_near_surface=sharp_near_surface.astype(float),
+            fps_coarse_surface=fps_coarse_surface.astype(float),
+            rand_points=rand_points.astype(float),
         )
     else:
         print(f"{output_path}" + " no sharp edges!")

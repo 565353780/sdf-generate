@@ -28,9 +28,9 @@ def generate_dense_grid_points(
 ):
     length = bbox_max - bbox_min  # array([2.1, 2.1, 2.1])
     num_cells = resolution  # 512
-    x = np.linspace(bbox_min[0], bbox_max[0], resolution + 1, dtype=np.float32)
-    y = np.linspace(bbox_min[1], bbox_max[1], resolution + 1, dtype=np.float32)
-    z = np.linspace(bbox_min[2], bbox_max[2], resolution + 1, dtype=np.float32)
+    x = np.linspace(bbox_min[0], bbox_max[0], resolution + 1, dtype=float)
+    y = np.linspace(bbox_min[1], bbox_max[1], resolution + 1, dtype=float)
+    z = np.linspace(bbox_min[2], bbox_max[2], resolution + 1, dtype=float)
     [xs, ys, zs] = np.meshgrid(x, y, z, indexing=indexing)
     xyz = np.stack((xs, ys, zs), axis=-1)
     xyz = xyz.reshape(-1, 3)  # 513*513*513，3
@@ -52,7 +52,7 @@ def remesh(grid_xyz, grid_size, mesh_path, remesh_path, resolution, use_pcu):
     vertices = (vertices - center) * scale
     if use_pcu:
         grid_sdf, fid, bc = pcu.signed_distance_to_mesh(
-            grid_xyz, vertices.astype(np.float32), mesh.faces
+            grid_xyz, vertices.astype(float), mesh.faces
         )
         grid_udf = (
             torch.FloatTensor(np.abs(grid_sdf))

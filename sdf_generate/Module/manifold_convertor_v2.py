@@ -24,6 +24,10 @@ class ManifoldConvertorV2(BaseConvertor):
         self.grid_xyz, self.grid_size = generate_dense_grid_points(
             resolution=resolution
         )
+        if use_pcu:
+            self.grid_xyz = self.grid_xyz.astype(float)
+        else:
+            self.grid_xyz = torch.FloatTensor(self.grid_xyz).cuda()
         return
 
     def convertData(self, source_path: str, target_path: str) -> bool:

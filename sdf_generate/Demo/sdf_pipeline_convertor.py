@@ -14,10 +14,10 @@ def demo():
     HOME = os.environ["HOME"]
 
     dataset_root_folder_path = HOME + "/chLi/Dataset/Objaverse_82K/"
-    resolution = 4096
-    use_pcu = True
+    resolution = 512
+    use_pcu = False
     angle_threshold = 15.0
-    point_number = 250000
+    point_number = 32768
 
     pipeline_convertor = PipelineConvertor()
 

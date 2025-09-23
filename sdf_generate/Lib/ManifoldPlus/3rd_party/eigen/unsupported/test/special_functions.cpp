@@ -379,7 +379,7 @@ template<typename ArrayType> void array_special_functions()
     a = np.logspace(-2, 3, 6)
     a = np.ravel(np.tile(np.reshape(a, [-1, 1]), [1, N]))
     x = np.random.gamma(a, 1.0)
-    x = np.maximum(x, np.finfo(np.float32).tiny)
+    x = np.maximum(x, np.finfo(float).tiny)
 
     def igamma(a, x):
       return mpmath.gammainc(a, 0, x, regularized=True)

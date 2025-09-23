@@ -12,7 +12,7 @@ class SharpEdgePcdConvertor(BaseConvertor):
         source_root_folder_path: str,
         target_root_folder_path: str,
         angle_threshold: float = 15.0,
-        point_number: int = 1638400,
+        point_number: int = 32768,
     ) -> None:
         super().__init__(source_root_folder_path, target_root_folder_path)
 
