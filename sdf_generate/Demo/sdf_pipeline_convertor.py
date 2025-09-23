@@ -6,8 +6,8 @@ import os
 
 from data_convert.Module.pipeline_convertor import PipelineConvertor
 
-from sdf_generate.Module.manifold_convertor_v2 import ManifoldConvertorV2
-from sdf_generate.Module.sharp_edge_pcd_convertor import SharpEdgePcdConvertor
+from sdf_generate.Module.watertight_convertor import WatertightConvertor
+from sdf_generate.Module.sharp_edge_sdf_convertor import SharpEdgeSDFConvertor
 
 
 def demo():
@@ -22,13 +22,13 @@ def demo():
     pipeline_convertor = PipelineConvertor()
 
     convertor_list = [
-        ManifoldConvertorV2(
+        WatertightConvertor(
             dataset_root_folder_path + "glbs/",
             dataset_root_folder_path + "manifold/",
             resolution,
             use_pcu,
         ),
-        SharpEdgePcdConvertor(
+        SharpEdgeSDFConvertor(
             dataset_root_folder_path + "manifold/",
             dataset_root_folder_path + "sharp_edge_sample/",
             angle_threshold,
