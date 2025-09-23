@@ -26,8 +26,6 @@ def generate_dense_grid_points(
     resolution=512,
     indexing="ij",
 ):
-    length = bbox_max - bbox_min  # array([2.1, 2.1, 2.1])
-    num_cells = resolution  # 512
     x = np.linspace(bbox_min[0], bbox_max[0], resolution + 1, dtype=float)
     y = np.linspace(bbox_min[1], bbox_max[1], resolution + 1, dtype=float)
     z = np.linspace(bbox_min[2], bbox_max[2], resolution + 1, dtype=float)

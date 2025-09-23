@@ -30,7 +30,7 @@ def demo():
         ),
         SharpEdgeSDFConvertor(
             dataset_root_folder_path + "manifold/",
-            dataset_root_folder_path + "sharp_edge_sample/",
+            dataset_root_folder_path + "sharp_edge_sdf/",
             angle_threshold,
             point_number,
         ),
@@ -39,7 +39,7 @@ def demo():
     data_type_list = [
         ".glb",
         ".obj",
-        "/",
+        ".npz",
     ]
 
     pipeline_convertor = PipelineConvertor(convertor_list)

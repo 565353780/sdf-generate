@@ -2,10 +2,7 @@ import torch
 
 from data_convert.Module.base_convertor import BaseConvertor
 
-from sdf_generate.Lib.sharp_edge_sampling.to_watertight_mesh import (
-    generate_dense_grid_points,
-    remesh,
-)
+from sdf_generate.Method.watertight import generate_dense_grid_points, remesh
 
 
 class WatertightConvertor(BaseConvertor):

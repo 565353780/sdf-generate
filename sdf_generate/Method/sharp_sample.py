@@ -1,12 +1,8 @@
 import bpy
-import json
-import os
 import math
 import open3d as o3d
-from tqdm import tqdm
 import numpy as np
 import bmesh
-import argparse
 import gc
 import trimesh
 import fpsample
@@ -21,11 +17,8 @@ def save_vertices_as_ply_open3d(vertices, filepath):
     o3d.io.write_point_cloud(filepath, point_cloud, write_ascii=True)
 
 
-def process_mesh(
-    mesh_path, point_number, ply_output_path, npz_output_path, sharpness_threshold
-):
+def process_mesh(mesh_path, point_number, npz_output_path, sharpness_threshold):
     # 导入mesh
-    parts = mesh_path.split("/")
     bpy.ops.wm.obj_import(filepath=mesh_path)
     # bpy.ops.wm.stl_import(filepath=mesh_path)
     # bpy.ops.wm.ply_import(filepath=mesh_path)
@@ -299,10 +292,6 @@ def process_mesh(
     else:
         print(f"{output_path}" + " no sharp edges!")
 
-    if sharp_edges_count > 0:
-        # 保存顶点为PLY文件
-        save_vertices_as_ply_open3d(sharp_surface[:, :3], ply_output_path)
-
     # 删除导入的对象
     bm.free()
     del (
@@ -316,88 +305,3 @@ def process_mesh(
     )
     bpy.data.objects.remove(obj, do_unlink=True)
     gc.collect()
-
-
-def main(
-    json_file_path, angle_threshold, point_number, sharp_point_path, sample_path
-) -> None:
-    # 读取JSON文件中的mesh目录
-    with open(json_file_path, "r") as f:
-        data = json.load(f)
-
-    meshes_paths = data
-
-    # 设置sharp edges的角度阈值，单位是弧度
-    sharpness_threshold = math.radians(angle_threshold)
-
-    for mesh_path in tqdm(meshes_paths, desc="Processing meshes"):
-        ply_output_path = (
-            sharp_point_path
-            + "/"
-            + mesh_path.split("/")[-2]
-            + "/"
-            + os.path.basename(mesh_path).replace(".obj", ".ply")
-        )
-        npz_output_path = (
-            sample_path
-            + "/"
-            + mesh_path.split("/")[-2]
-            + "/"
-            + os.path.basename(mesh_path).replace(".obj", ".npz")
-        )
-        os.makedirs(sharp_point_path + "/" + mesh_path.split("/")[-2], exist_ok=True)
-        os.makedirs(sample_path + "/" + mesh_path.split("/")[-2], exist_ok=True)
-        if (
-            os.path.exists(ply_output_path) == False
-            or os.path.exists(npz_output_path) == False
-        ):
-            try:
-                process_mesh(
-                    mesh_path,
-                    point_number,
-                    ply_output_path,
-                    npz_output_path,
-                    sharpness_threshold,
-                )
-                gc.collect()
-            except Exception as e:
-                print(f"ERROR: in processing path: {ply_output_path}. Error: {e}")
-                gc.collect()
-
-
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--json_file_path",
-        type=str,
-        help="指定要读取的json目录",
-    )
-    parser.add_argument(
-        "--angle_threshold",
-        type=int,
-        help="指定二面角阈值",
-    )
-    parser.add_argument(
-        "--point_number",
-        type=int,
-        help="指定要采样的point数量",
-    )
-    parser.add_argument(
-        "--sharp_point_path",
-        type=str,
-        help="指定要保存的sharp point的目录",
-    )
-
-    parser.add_argument(
-        "--sample_path",
-        type=str,
-        help="指定要保存的sample数据目录",
-    )
-    args, extras = parser.parse_known_args()
-    main(
-        args.json_file_path,
-        args.angle_threshold,
-        args.point_number,
-        args.sharp_point_path,
-        args.sample_path,
-    )

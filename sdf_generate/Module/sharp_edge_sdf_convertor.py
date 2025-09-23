@@ -3,7 +3,7 @@ import math
 
 from data_convert.Module.base_convertor import BaseConvertor
 
-from sdf_generate.Lib.sharp_edge_sampling.sharp_sample import process_mesh
+from sdf_generate.Method.sharp_sample import process_mesh
 
 
 class SharpEdgeSDFConvertor(BaseConvertor):
@@ -27,8 +27,7 @@ class SharpEdgeSDFConvertor(BaseConvertor):
             process_mesh(
                 source_path,
                 self.point_number,
-                target_path + "pcd.ply",
-                target_path + "sdf.npz",
+                target_path,
                 self.sharpness_threshold,
             )
             gc.collect()
