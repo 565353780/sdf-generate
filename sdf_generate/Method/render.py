@@ -1,6 +1,22 @@
 import skimage
 import numpy as np
 import open3d as o3d
+from typing import Union
+
+
+def getPcd(
+    points: np.ndarray,
+    normals: Union[np.ndarray, None] = None,
+    colors: Union[np.ndarray, list] = [1.0, 0.0, 0.0],
+) -> o3d.geometry.PointCloud:
+    pcd = o3d.geometry.PointCloud()
+    pcd.points = o3d.utility.Vector3dVector(points)
+
+    if normals is not None:
+        pcd.normals = o3d.utility.Vector3dVector(normals)
+
+    pcd.colors = o3d.utility.Vector3dVector(np.tile(colors, (points.shape[0], 1)))
+    return pcd
 
 
 def toSDFMesh(sdf_data: np.ndarray) -> o3d.geometry.TriangleMesh:
@@ -15,7 +31,9 @@ def toSDFMesh(sdf_data: np.ndarray) -> o3d.geometry.TriangleMesh:
     return sdf_mesh
 
 
-def toNearSurfaceSDFPcd(sdf_data: np.ndarray, inner_only: bool = False) -> o3d.geometry.PointCloud:
+def toNearSurfaceSDFPcd(
+    sdf_data: np.ndarray, inner_only: bool = False
+) -> o3d.geometry.PointCloud:
     positive_mask = sdf_data[:, 3] > 0.0
     negative_mask = ~positive_mask
 

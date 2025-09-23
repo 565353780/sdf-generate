@@ -2,6 +2,8 @@ import os
 import numpy as np
 import open3d as o3d
 
+from sdf_generate.Method.render import getPcd
+
 
 class SDFViewer(object):
     def __init__(
@@ -62,6 +64,7 @@ class SDFViewer(object):
                     continue
 
                 manifold_mesh = o3d.io.read_triangle_mesh(manifold_mesh_file_path)
+                manifold_mesh.compute_vertex_normals()
 
                 sample_pcd = o3d.io.read_point_cloud(sample_pcd_file_path)
 
@@ -71,6 +74,7 @@ class SDFViewer(object):
                     key: sample_sdf_data[key] for key in sample_sdf_data.files
                 }
 
+                print("sample_pcd:", sample_pcd)
                 for key, item in sample_sdf_dict.items():
                     print(f"{key}: {item.shape}, {item.dtype}")
 
@@ -79,8 +83,38 @@ class SDFViewer(object):
                 fps_coarse_surface = sample_sdf_dict["fps_coarse_surface"]
                 rand_points = sample_sdf_dict["rand_points"]
 
-                exit()
+                fps_sharp_surface_pcd = getPcd(
+                    fps_sharp_surface[:, 0, :3],
+                    fps_sharp_surface[:, 0, 3:],
+                )
 
-                o3d.visualization.draw_geometries([manifold_mesh])
-                o3d.visualization.draw_geometries([sample_pcd])
+                sharp_near_surface_pcd = getPcd(sharp_near_surface[:, :3])
+
+                fps_coarse_surface_pcd = getPcd(
+                    fps_coarse_surface[:, 0, :3],
+                    fps_coarse_surface[:, 0, 3:],
+                )
+
+                rand_points_pcd = getPcd(rand_points[:, :3])
+
+                sample_pcd.translate([2.5, 0, 0])
+
+                fps_sharp_surface_pcd.translate([5.0, 0, 0])
+
+                sharp_near_surface_pcd.translate([7.5, 0, 0])
+
+                fps_coarse_surface_pcd.translate([10.0, 0, 0])
+
+                rand_points_pcd.translate([12.5, 0, 0])
+
+                o3d.visualization.draw_geometries(
+                    [
+                        manifold_mesh,
+                        sample_pcd,
+                        fps_sharp_surface_pcd,
+                        sharp_near_surface_pcd,
+                        fps_coarse_surface_pcd,
+                        rand_points_pcd,
+                    ]
+                )
         return True
