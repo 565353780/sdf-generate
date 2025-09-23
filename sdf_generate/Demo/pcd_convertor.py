@@ -4,7 +4,7 @@ sys.path.append("../data-convert")
 
 import os
 
-from sdf_generate.Module.pcd_convertor import PcdConvertor
+from sdf_generate.Module.uniform_pcd_convertor import PcdConvertor
 
 
 def demo():
