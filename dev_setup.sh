@@ -1,12 +1,14 @@
 cd ..
 git clone git@github.com:565353780/data-convert.git
+git clone --recursive https://github.com/ashawkey/cubvh
 
 cd data-convert
 ./dev_setup.sh
 
-sudo apt-get install -y ninja-build libxi6
+cd ../cubvh
+pip install . --no-build-isolation
 
-pip install git+https://github.com/ashawkey/cubvh
+sudo apt-get install -y ninja-build libxi6
 
 cd ../sdf-generate/sdf_generate/Lib/ManifoldPlus
 rm -rf build
@@ -21,5 +23,5 @@ pip install .
 pip install -U open3d tqdm trimesh scikit-image diso \
   argparse pysdf fpsample numpy point_cloud_utils
 
-pip install bpy==4.0.0
 pip install numpy==1.26.4
+pip install bpy==4.0.0 --extra-index-url https://download.blender.org/pypi/
