@@ -1,15 +1,9 @@
-if [ "$(uname)" == "Darwin" ]; then
-	PROCESSOR_NUM=$(sysctl -n hw.physicalcpu)
-elif [ "$(uname)" = "Linux" ]; then
-	PROCESSOR_NUM=$(cat /proc/cpuinfo | grep "processor" | wc -l)
-fi
-
-PROCESSOR_NUM=16
+PROCESSOR_NUM=$2
 
 for i in $(seq 1 ${PROCESSOR_NUM}); do
-	python convert.py &
-	sleep 1
-	echo "started Convertor No."$i
+  python $1 &
+  sleep 1
+  echo "started Convertor No."$i
 done
 
 wait
